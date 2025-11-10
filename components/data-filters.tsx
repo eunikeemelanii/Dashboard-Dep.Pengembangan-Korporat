@@ -7,11 +7,22 @@ interface DataFiltersProps {
   factories: number[]
   selectedFactory: number | null
   onFactoryChange: (factory: number | null) => void
+  rawMaterials: string[]
+  selectedRawMaterial: string | null
+  onRawMaterialChange: (rawMaterial: string | null) => void
 }
 
-export function DataFilters({ factories, selectedFactory, onFactoryChange }: DataFiltersProps) {
+export function DataFilters({
+  factories,
+  selectedFactory,
+  onFactoryChange,
+  rawMaterials,
+  selectedRawMaterial,
+  onRawMaterialChange,
+}: DataFiltersProps) {
   const handleClearFilters = () => {
     onFactoryChange(null)
+    onRawMaterialChange(null)
   }
 
   return (
@@ -32,6 +43,22 @@ export function DataFilters({ factories, selectedFactory, onFactoryChange }: Dat
               {factories.map((factory) => (
                 <SelectItem key={factory} value={factory.toString()}>
                   Pabrik {factory}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-foreground">Raw Material (Bahan Baku)</label>
+          <Select value={selectedRawMaterial || ""} onValueChange={(value) => onRawMaterialChange(value || null)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select material..." />
+            </SelectTrigger>
+            <SelectContent>
+              {rawMaterials.map((material) => (
+                <SelectItem key={material} value={material}>
+                  {material}
                 </SelectItem>
               ))}
             </SelectContent>

@@ -4,6 +4,7 @@ import { ConsumptionRateTable } from "./consumption-rate-table"
 import { DataFilters } from "./data-filters"
 import { PriceTrendChart } from "./price-trend-chart"
 import { useConsumptionData } from "@/hooks/use-consumption-data"
+import { useState } from "react"
 
 interface DashboardTabsProps {
   onEdit: (id: number) => void
@@ -12,8 +13,11 @@ interface DashboardTabsProps {
 }
 
 export function DashboardTabs({ onEdit, selectedFactory, onFactoryChange }: DashboardTabsProps) {
-  const { data, isLoading, factories } = useConsumptionData({
+  const [selectedRawMaterial, setSelectedRawMaterial] = useState<string | null>(null)
+
+  const { data, isLoading, factories, rawMaterials } = useConsumptionData({
     factory: selectedFactory,
+    rawMaterial: selectedRawMaterial,
   })
 
   return (
@@ -24,7 +28,14 @@ export function DashboardTabs({ onEdit, selectedFactory, onFactoryChange }: Dash
       </TabsList>
 
       <TabsContent value="consumption" className="space-y-6">
-        <DataFilters factories={factories} selectedFactory={selectedFactory} onFactoryChange={onFactoryChange} />
+        <DataFilters
+          factories={factories}
+          selectedFactory={selectedFactory}
+          onFactoryChange={onFactoryChange}
+          rawMaterials={rawMaterials}
+          selectedRawMaterial={selectedRawMaterial}
+          onRawMaterialChange={setSelectedRawMaterial}
+        />
         <ConsumptionRateTable data={data} isLoading={isLoading} onEdit={onEdit} />
       </TabsContent>
 
