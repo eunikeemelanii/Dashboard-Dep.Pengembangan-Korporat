@@ -5,6 +5,8 @@ import { DataFilters } from "./data-filters"
 import { PriceTrendChart } from "./price-trend-chart"
 import { useConsumptionData } from "@/hooks/use-consumption-data"
 import { useState } from "react"
+import { PriceRankingCard } from "./price-ranking-card"
+import { DecisionSuggestionsBooth } from "./decision-suggestions-booth"
 
 interface DashboardTabsProps {
   onEdit: (id: number) => void
@@ -39,8 +41,13 @@ export function DashboardTabs({ onEdit, selectedFactory, onFactoryChange }: Dash
         <ConsumptionRateTable data={data} isLoading={isLoading} onEdit={onEdit} />
       </TabsContent>
 
-      <TabsContent value="trends">
+      <TabsContent value="trends" className="space-y-6">
         <PriceTrendChart />
+        <div className="border-t pt-8">
+          <h2 className="text-2xl font-bold mb-6">Global Raw Material Price from International Sources</h2>
+          <PriceRankingCard />
+          <DecisionSuggestionsBooth />
+        </div>
       </TabsContent>
     </Tabs>
   )
