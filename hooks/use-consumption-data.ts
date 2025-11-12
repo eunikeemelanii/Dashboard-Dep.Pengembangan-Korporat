@@ -14,6 +14,7 @@ interface ConsumptionRateData {
 interface UseConsumptionDataOptions {
   factory?: number | null
   rawMaterial?: string | null
+  product?: string | null
 }
 
 export function useConsumptionData(options: UseConsumptionDataOptions) {
@@ -21,6 +22,7 @@ export function useConsumptionData(options: UseConsumptionDataOptions) {
   const [isLoading, setIsLoading] = useState(true)
   const [factories, setFactories] = useState<number[]>([])
   const [rawMaterials, setRawMaterials] = useState<string[]>([])
+  const [products, setProducts] = useState<string[]>([])
 
   const fetchData = useCallback(async () => {
     setIsLoading(true)
@@ -28,6 +30,7 @@ export function useConsumptionData(options: UseConsumptionDataOptions) {
       const params = new URLSearchParams()
       if (options.factory) params.append("factory", options.factory.toString())
       if (options.rawMaterial) params.append("rawMaterial", options.rawMaterial)
+      if (options.product) params.append("product", options.product)
 
       const response = await fetch(`/api/consumption-rates?${params.toString()}`)
       if (!response.ok) throw new Error("Failed to fetch data")
@@ -36,13 +39,14 @@ export function useConsumptionData(options: UseConsumptionDataOptions) {
       setData(result.data || [])
       setFactories(result.factories || [])
       setRawMaterials(result.rawMaterials || [])
+      setProducts(result.products || [])
     } catch (error) {
       console.error("Error fetching consumption data:", error)
       setData([])
     } finally {
       setIsLoading(false)
     }
-  }, [options.factory, options.rawMaterial])
+  }, [options.factory, options.rawMaterial, options.product])
 
   useEffect(() => {
     fetchData()
@@ -52,5 +56,5 @@ export function useConsumptionData(options: UseConsumptionDataOptions) {
     fetchData()
   }, [fetchData])
 
-  return { data, isLoading, factories, rawMaterials, refetch }
+  return { data, isLoading, factories, rawMaterials, products, refetch }
 }

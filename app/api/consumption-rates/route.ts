@@ -255,6 +255,7 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const factory = searchParams.get("factory")
   const rawMaterial = searchParams.get("rawMaterial")
+  const product = searchParams.get("product") // Added product parameter
 
   let filtered = [...mockData]
 
@@ -266,13 +267,20 @@ export async function GET(request: NextRequest) {
     filtered = filtered.filter((item) => item.raw_material === rawMaterial)
   }
 
-  const factories = [...new Set(mockData.map((item) => item.factory))].sort()
+  if (product) {
+    // Added product filter logic
+    filtered = filtered.filter((item) => item.product === product)
+  }
+
+  const factories = [...new Set(mockData.map((item) => item.factory))].sort((a, b) => a - b)
   const rawMaterials = [...new Set(mockData.map((item) => item.raw_material))].sort()
+  const products = [...new Set(mockData.map((item) => item.product))].sort() // Extract products list
 
   return NextResponse.json({
     data: filtered,
     factories,
     rawMaterials,
+    products, // Return products list
   })
 }
 

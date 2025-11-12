@@ -119,7 +119,7 @@ const priceData: PriceRankingData[] = [
     type: "FOB",
     rank_within_material: 1,
     material_group: "PR Moroco",
-    material_clean: "PR",
+    material_clean: "PR (68-72% BPL)",
     rank_within_material_clean: 2,
   },
   {

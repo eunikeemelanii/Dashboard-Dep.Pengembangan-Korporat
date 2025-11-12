@@ -7,6 +7,7 @@ import { useConsumptionData } from "@/hooks/use-consumption-data"
 import { useState } from "react"
 import { PriceRankingCard } from "./price-ranking-card"
 import { DecisionSuggestionsBooth } from "./decision-suggestions-booth"
+import { RawMaterialPieChart } from "./raw-material-pie-chart"
 
 interface DashboardTabsProps {
   onEdit: (id: number) => void
@@ -16,11 +17,15 @@ interface DashboardTabsProps {
 
 export function DashboardTabs({ onEdit, selectedFactory, onFactoryChange }: DashboardTabsProps) {
   const [selectedRawMaterial, setSelectedRawMaterial] = useState<string | null>(null)
+  const [selectedProduct, setSelectedProduct] = useState<string | null>(null)
 
-  const { data, isLoading, factories, rawMaterials } = useConsumptionData({
+  const { data, isLoading, factories, rawMaterials, products } = useConsumptionData({
     factory: selectedFactory,
     rawMaterial: selectedRawMaterial,
+    product: selectedProduct,
   })
+
+  const selectedProductData = selectedProduct ? data.filter((item) => item.product === selectedProduct) : []
 
   return (
     <Tabs defaultValue="consumption" className="w-full">
@@ -37,7 +42,15 @@ export function DashboardTabs({ onEdit, selectedFactory, onFactoryChange }: Dash
           rawMaterials={rawMaterials}
           selectedRawMaterial={selectedRawMaterial}
           onRawMaterialChange={setSelectedRawMaterial}
+          products={products}
+          selectedProduct={selectedProduct}
+          onProductChange={setSelectedProduct}
         />
+
+        {selectedProduct && selectedProductData.length > 0 && (
+          <RawMaterialPieChart data={selectedProductData} product={selectedProduct} />
+        )}
+
         <ConsumptionRateTable data={data} isLoading={isLoading} onEdit={onEdit} />
       </TabsContent>
 

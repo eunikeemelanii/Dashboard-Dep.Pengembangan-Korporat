@@ -10,6 +10,9 @@ interface DataFiltersProps {
   rawMaterials: string[]
   selectedRawMaterial: string | null
   onRawMaterialChange: (rawMaterial: string | null) => void
+  products: string[]
+  selectedProduct: string | null
+  onProductChange: (product: string | null) => void
 }
 
 export function DataFilters({
@@ -19,17 +22,21 @@ export function DataFilters({
   rawMaterials,
   selectedRawMaterial,
   onRawMaterialChange,
+  products,
+  selectedProduct,
+  onProductChange,
 }: DataFiltersProps) {
   const handleClearFilters = () => {
     onFactoryChange(null)
     onRawMaterialChange(null)
+    onProductChange(null)
   }
 
   return (
     <div className="flex flex-col gap-4 rounded-lg border border-border bg-card p-4">
       <h2 className="font-semibold text-foreground">Filters</h2>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-2">
           <label className="text-sm font-medium text-foreground">Factory (Pabrik)</label>
           <Select
@@ -59,6 +66,22 @@ export function DataFilters({
               {rawMaterials.map((material) => (
                 <SelectItem key={material} value={material}>
                   {material}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-foreground">Product</label>
+          <Select value={selectedProduct || ""} onValueChange={(value) => onProductChange(value || null)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select product..." />
+            </SelectTrigger>
+            <SelectContent>
+              {products.map((product) => (
+                <SelectItem key={product} value={product}>
+                  {product}
                 </SelectItem>
               ))}
             </SelectContent>
