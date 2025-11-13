@@ -4,7 +4,6 @@ export interface PriceTrendData {
   date: string
   material: string
   price: number
-  volume: number
 }
 
 interface PriceTrendsResponse {
@@ -19,6 +18,8 @@ interface PriceTrendsResponse {
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
 export function usePriceTrends() {
+  // Pastikan file route.ts yang saya beri sebelumnya disimpan di folder:
+  // app/api/price-trends/route.ts 
   const { data, error, isLoading } = useSWR<PriceTrendsResponse>("/api/price-trends", fetcher, {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
