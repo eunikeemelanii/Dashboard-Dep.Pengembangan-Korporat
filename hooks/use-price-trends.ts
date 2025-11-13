@@ -4,6 +4,7 @@ export interface PriceTrendData {
   date: string
   material: string
   price: number
+  source?: 'global' | 'realisasi'
 }
 
 interface PriceTrendsResponse {
