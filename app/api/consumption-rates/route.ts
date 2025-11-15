@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from "next/server"
 
 // Mock database - in production, use a real database
 const mockData = [
-  { id: 1, factory: 1, product: "Ammonia", raw_material: "Gas Bumi", consumption_rate: 31.5, unit: "MMBTU/Ton" },
+  { id: 1, factory: 1, product: "Ammonia", raw_material: "Gas", consumption_rate: 31.5, unit: "MMBTU/Ton" },
   { id: 2, factory: 1, product: "Ammonia", raw_material: "Nitrogen Liquid", consumption_rate: 0.21, unit: "Ton/Ton" },
   { id: 3, factory: 1, product: "Ammonia", raw_material: "Air Demin", consumption_rate: 4.39, unit: "m3/ton" },
   { id: 4, factory: 1, product: "Ammonia", raw_material: "Listrik", consumption_rate: 11.54, unit: "MWh/ton" },
